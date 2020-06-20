@@ -19,6 +19,6 @@ export default {
    position absolute
    right 0
    top 0
-   margin 15px
-   width 30px
+   margin 25px
+   width 35px
 </style>

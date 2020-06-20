@@ -21,10 +21,11 @@ export default {
 
 <style scoped lang="stylus">
 .bookgrid
-  display grid
-  width: 600px
+  display flex
+  flex-wrap wrap
+  width 70%
+  min-width 500px;
   margin 1.5em auto
-  grid-template-columns 150px 150px 150px 150px
   background white
   border-top 1px solid #aaaaaa
   border-bottom 1px solid #aaaaaa
@@ -32,7 +33,7 @@ export default {
 .bookgridbook
   text-align center
   margin 1.5em auto
-  padding 0 1em
+  padding 0 3em
   cursor pointer
 
 .bookgridbook:hover
@@ -41,15 +42,16 @@ export default {
 .bookshelf-title::before
   content "🕮"
   display block
+  font-size 18pt
   text-decoration none
 
 .bookshelf-title
-  font-size 11pt
+  font-size 14pt
   margin 0px
 
 .bookshelf-author
   margin 0px
-  font-size 9pt
+  font-size 10pt
   font-style italic
 
 </style>

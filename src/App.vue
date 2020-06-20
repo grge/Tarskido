@@ -28,7 +28,7 @@ body
   font-family sans-serif
   color edit-link-color
   text-decoration none
-  font-size 10pt
+  font-size 12pt
   cursor pointer
 
 
