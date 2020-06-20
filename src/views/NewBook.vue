@@ -1,18 +1,15 @@
 <template>
   <div class="home">
-      <h1>Tarskido</h1>
-      <BookShelf :books='$store.state.books'/>
+      <h2>Edit Book</h2>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import BookShelf from '@/components/BookShelf.vue'
 
 export default {
-  name: 'Home',
+  name: 'NewBook',
   components: {
-    BookShelf
   }
 }
 </script>

@@ -1,19 +1,35 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <style lang="stylus">
+edit-link-color = #cc0000
+
+
 #app
-  font-family Avenir, Helvetica, Arial, sans-serif
+  font-family "Cambria" georgia serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
+  padding 0
+  margin 0
   color #2c3e50
-  margin-top 60px
+
+body
+  background-color #fffffa
+
+.editlink:hover
+  text-decoration underline
+
+.editlink 
+  font-family sans-serif
+  color edit-link-color
+  text-decoration none
+  cursor pointer
+
+
+.editlink:before
+  content "🖉 "
 </style>
