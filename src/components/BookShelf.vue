@@ -33,10 +33,15 @@ export default {
   text-align center
   margin 1.5em auto
   padding 0 1em
+  cursor pointer
+
+.bookgridbook:hover
+  color title-blue
 
 .bookshelf-title::before
   content "🕮"
   display block
+  text-decoration none
 
 .bookshelf-title
   font-size 11pt

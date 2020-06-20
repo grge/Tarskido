@@ -5,7 +5,8 @@
 </template>
 
 <style lang="stylus">
-edit-link-color = #cc0000
+edit-link-color = #cc2200
+title-blue = #024064
 
 
 #app
@@ -27,6 +28,7 @@ body
   font-family sans-serif
   color edit-link-color
   text-decoration none
+  font-size 10pt
   cursor pointer
 
 
