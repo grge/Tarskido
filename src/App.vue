@@ -25,19 +25,33 @@ body
 a:hover
   text-decoration underline
 
-.editlink, .deletelink 
+
+.editlink, .deletelink, navigatelink, .reference-link
   font-family sans-serif
-  color edit-link-color
   text-decoration none
   font-size 12pt
   cursor pointer
 
+.editlink, deletelink
+  color edit-link-color
+
 .navigatelink
-  font-family sans-serif
   color navigate-link-color
-  text-decoration none
-  font-size 12pt
-  cursor pointer
+
+.reference-link
+  color title-blue
+
+.navpreviouslink:before
+  content "◀ "
+
+.navnextlink:before
+  content "▶ "
+
+.navuplink:before
+  content "▲ "
+
+.navtoclink:before
+  content "▤ "
 
 .navbacklink:before
   content "↩ "
