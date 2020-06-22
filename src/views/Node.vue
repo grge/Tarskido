@@ -8,7 +8,7 @@
       </div>
       <div class='listoflinks'>
         <a class='navigatelink navpreviouslink'>Previous</a>
-        <a class='navigatelink navuplink'>Up</a>
+        <router-link :to='this.parentRoute' class='navigatelink navuplink'>Up</router-link>
         <a class='navigatelink navnextlink'>Next</a>
         <a class='navigatelink navtoclink'>Show contents</a>
       </div>
@@ -28,6 +28,14 @@ export default {
     },
     node() {
       return this.book.nodes[this.$route.params.nodeid];
+    },
+    parentRoute() {
+      if (this.node.chapter == 'null') {
+        return {name: 'BookFront', params: {bookid: this.book.id}}
+      }
+      else {
+        return {name: 'Node', params: {bookid: this.book.id, nodeid: this.node.chapter}}
+      }
     }
   },
   components: {
