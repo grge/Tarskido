@@ -28,6 +28,11 @@ h1
  font-family sans
 
 h1::before
- content "◉"
+ content " "
+ background-image url('/logo.svg')
+ background-size 1em
+ width 1em
+ height 1em
+ display inline-block
  margin-right 0.5em
 </style>
