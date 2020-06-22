@@ -2,8 +2,10 @@
   <div class="hello">
     <div class='bookgrid'>
         <div class='bookgridbook' :key='id' v-for='(book, id) in books'>
-            <p class='bookshelf-title'>{{ book.title }}</p>
-            <p class='bookshelf-author'>by {{ book.author }}</p>
+            <router-link :to="{name: 'BookFront', params: {bookid: book.id}}">
+              <p class='bookshelf-title'>{{ book.title }}</p>
+              <p class='bookshelf-author'>by {{ book.author }}</p>
+            </router-link>
         </div>
     </div> 
     <a v-if="$store.state.editMode" class='editlink newbooklink'  @click="$store.commit('createNewBook')">Create new book</a>
@@ -15,6 +17,11 @@ export default {
   name: 'BookShelf',
   props: {
       books: Object
+  },
+  methods: {
+    createNewBookAndEdit() {
+      this.$store.commit('createNewBook');
+    }
   }
 }
 </script>
@@ -36,8 +43,9 @@ export default {
   padding 0 3em
   cursor pointer
 
-.bookgridbook:hover
-  color title-blue
+.bookgridbook a 
+  text-decoration none
+  color black
 
 .bookshelf-title::before
   content "🕮"

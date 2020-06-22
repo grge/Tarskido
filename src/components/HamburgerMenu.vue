@@ -1,7 +1,7 @@
 <template>
   <div class="hamburger-menu">
-      <img v-if='dark' class="hamburger-menu-button" src="hamburger_icon_dark.png" />
-      <img v-if='!dark' class="hamburger-menu-button" src="hamburger_icon_light.png" />
+      <img v-if='dark' class="hamburger-menu-button" src="/hamburger_icon_dark.png" />
+      <img v-if='!dark' class="hamburger-menu-button" src="/hamburger_icon_light.png" />
   </div>
 </template>
 
@@ -19,6 +19,6 @@ export default {
    position absolute
    right 0
    top 0
-   margin 25px
-   width 35px
+   margin 15px
+   width 30px
 </style>

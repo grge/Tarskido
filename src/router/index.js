@@ -2,6 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import NewBook from '../views/NewBook.vue'
+import BookFront from '../views/BookFront.vue'
+import BookEdit from '../views/BookEdit.vue'
+import NodeEdit from '../views/NodeEdit.vue'
+import Node from '../views/Node.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +19,26 @@ Vue.use(VueRouter)
     path: '/newbook',
     name: 'NewBook',
     component: NewBook
+  },
+  {
+    path: '/book/:bookid/edit',
+    name: 'BookEdit',
+    component: BookEdit
+  },
+  {
+    path: '/book/:bookid',
+    name: 'BookFront',
+    component: BookFront
+  },
+  {
+    path: '/book/:bookid/:nodeid/edit',
+    name: 'NodeEdit',
+    component: NodeEdit
+  },
+  {
+    path: '/book/:bookid/:nodeid',
+    name: 'Node',
+    component: Node
   },
   {
     path: '/about',
