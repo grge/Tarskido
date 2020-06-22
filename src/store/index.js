@@ -22,7 +22,7 @@ var store = new Vuex.Store({
       },
       selectedBookGraph(state) {
           var book = state.books[state.selectedBookId];
-          var g = dagre.graphlib.Graph({directed: true, compound: true})
+          var g = new dagre.graphlib.Graph({directed: true, compound: true})
 
           Object.values(book.nodes).forEach((node) => {
             g.setNode(node.id, {id: node.id, name:node.name, reference:node.reference, type:node.type, subtype:node.subtype})

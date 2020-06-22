@@ -24,7 +24,13 @@
         </tr>
         <tr><th>Statement</th><td><input type='text' v-model="statement"/></td></tr>
         <tr><th>References</th><td><input type='text' v-model="references"/></td></tr>
-        <tr><th>Chapter</th><td><input type='text' v-model="chapter"/></td></tr>
+        <tr><th>Parent chapter</th><td>
+            <select v-model='chapter'>
+              <option value=null>None</option>
+              <option :key='cnode.id' :value='cnode.id' v-for='cnode in valid_chapters()'>{{cnode.subtype}} {{cnode.reference}}</option>
+            </select>
+           </td>
+          </tr>
       </table>
       <div class='listoflinks'>
         <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookid: this.book.id, nodeid: this.node.id}}">Back to node view</router-link>
@@ -113,6 +119,30 @@ export default {
     },
     valid_subtypes(type) {
       return constants.VALID_TYPES[type]
+    },
+    valid_chapters() {
+      var g = this.$store.getters.selectedBookGraph;
+
+      // get all descendent nodes of node (i.e. all nodes that are children or children of children, etc)
+      // this routine should be moved into the graphlib class
+      function getAllDescendents(nodeid) {
+        var children = g.children(nodeid)
+        return children.concat(...children.map(getAllDescendents))
+      }
+
+      var descendents = getAllDescendents(this.node.id);
+
+      /* Any node is a valid parent chapter for this node if it:
+         * has type='Chapter'
+         * is not the same node as this node
+         * is not a descendent chapter of this node 
+      */
+      var valid_chapters = Object.values(this.book.nodes).filter((n) => {
+        return (n.type == 'Chapter') && (!descendents.includes(n.id)) && (n.id != this.node.id)
+      })
+
+      return valid_chapters
+
     }
   },
   components: {
