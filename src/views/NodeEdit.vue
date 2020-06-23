@@ -26,7 +26,7 @@
         <tr><th>References</th><td><input type='text' v-model="references"/></td></tr>
         <tr><th>Parent chapter</th><td>
             <select v-model='chapter'>
-              <option value=null>None</option>
+              <option value='ROOT'>None</option>
               <option :key='cnode.id' :value='cnode.id' v-for='cnode in valid_chapters()'>{{cnode.subtype}} {{cnode.reference}}</option>
             </select>
            </td>

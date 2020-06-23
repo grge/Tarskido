@@ -30,7 +30,7 @@ export default {
       return this.book.nodes[this.$route.params.nodeid];
     },
     parentRoute() {
-      if (this.node.chapter == 'null') {
+      if (this.node.chapter == 'ROOT') {
         return {name: 'BookFront', params: {bookid: this.book.id}}
       }
       else {

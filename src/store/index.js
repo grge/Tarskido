@@ -17,8 +17,11 @@ var store = new Vuex.Store({
   },
   getters: {
       tableOfContentsData(state) {
-          var book = state.books[state.selectedBookId];
-          return Object.values(book.nodes);
+        //   var g = getters.selectedBookGraph;
+          var root_nodes = Object.values(state.books[state.selectedBookId].nodes).filter((n) => (n.chapter == 'ROOT'));
+        //   var book = state.books[state.selectedBookId];
+          return root_nodes;
+        //   return Object.values(book.nodes);
       },
       selectedBookGraph(state) {
           var book = state.books[state.selectedBookId];
@@ -76,7 +79,7 @@ var store = new Vuex.Store({
             subtype: 'Comment',
             statement: '',
             references: [],
-            chapter: null,
+            chapter: 'ROOT',
         })
     },
     deleteNode(state, payload) {
