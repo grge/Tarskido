@@ -22,15 +22,21 @@
             </select>
           </td>
         </tr>
-        <tr><th>Statement</th><td><input type='text' v-model="statement"/></td></tr>
-        <tr><th>References</th><td><input type='text' v-model="references"/></td></tr>
-        <tr><th>Parent chapter</th><td>
+        <tr><th>References</th>
+          <td>
+            <Multiselect placeholder='Add references...' :custom-label="reference_label" :multiple="true" v-model='references' :options='valid_references()'>
+            </Multiselect>
+          </td>
+        </tr>
+        <tr><th>Parent chapter</th>
+          <td>
             <select v-model='chapter'>
               <option value='ROOT'>None</option>
               <option :key='cnode.id' :value='cnode.id' v-for='cnode in valid_chapters()'>{{cnode.subtype}} {{cnode.reference}}</option>
             </select>
-           </td>
-          </tr>
+          </td>
+        </tr>
+        <tr><th>Statement</th><td><textarea v-model="statement"></textarea></td></tr>
       </table>
       <div class='listoflinks'>
         <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookid: this.book.id, nodeid: this.node.id}}">Back to node view</router-link>
@@ -42,6 +48,7 @@
 <script>
 import TopBar from '@/components/TopBar.vue'
 import constants from '@/constants.js' // eslint-disable-line no-unused-vars 
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'NodeEdit',
@@ -97,6 +104,7 @@ export default {
         return this.node.references
       },
       set(value) {
+        console.log(value)
         this.$store.commit('updateNodeReferences', {bookid: this.book.id, nodeid: this.node.id, references: value})
       }
     },
@@ -120,6 +128,10 @@ export default {
     valid_subtypes(type) {
       return constants.VALID_TYPES[type]
     },
+    valid_references() {
+      // TODO: Remove any nodes that refer to this node (including indirectly)
+      return Object.values(this.book.nodes).map((n) => n.id);
+    },
     valid_chapters() {
       var g = this.$store.getters.selectedBookGraph;
 
@@ -142,14 +154,21 @@ export default {
       })
 
       return valid_chapters
-
+    },
+    reference_label(nodeid) {
+      var n = this.book.nodes[nodeid];
+      return n.subtype + " " + this.reference
     }
+
   },
   components: {
     TopBar,
+    Multiselect
   }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped lang='stylus'>
 .edit-table
