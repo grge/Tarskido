@@ -15,33 +15,44 @@ export default {
 
 <style scoped lang="stylus">
 
-.reference-subtype-Comment
-  content "◀ "
+.reference-link
+ display inline-block
+ background-color white
+ padding 4px 10px
+ border 1px solid blue
+ border-radius 10px
 
-.reference-subtype-Note
+.reference-link:hover
+ text-decoration none
+ background-color #ffe599
+
+.reference-subtype-Comment::before
   content "= "
 
-.reference-subtype-Chapter
-  content "◀ "
+.reference-subtype-Note::before
+  content "= "
 
-.reference-subtype-Appendix
-  content "◀ "
+.reference-subtype-Chapter::before
+  content "✧ "
 
-.reference-subtype-Definition
-  content "◀ "
+.reference-subtype-Appendix::before
+  content "✧ "
 
-.reference-subtype-Axiom
-  content "◀ "
+.reference-subtype-Definition::before
+  content "▣ "
 
-.reference-subtype-Proposition
-  content "◀ "
+.reference-subtype-Axiom::before
+  content "▣ "
 
-.reference-subtype-Corollary
-  content "◀ "
+.reference-subtype-Proposition::before
+  content "⍟ "
 
-.reference-subtype-Theorem
-  content "◀ "
+.reference-subtype-Corollary::before
+  content "⍟ "
 
-.reference-subtype-Lemma
-  content "◀ "
+.reference-subtype-Theorem::before
+  content "⬤ "
+
+.reference-subtype-Lemma::before
+  content "◑ "
 </style>

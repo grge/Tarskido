@@ -21,6 +21,9 @@ export default {
 
 <style scoped lang='stylus'>
 
+.home
+ text-align center
+
 h1
  margin-top 2em
  font-size 41pt
@@ -35,4 +38,5 @@ h1::before
  height 1em
  display inline-block
  margin-right 0.5em
+
 </style>

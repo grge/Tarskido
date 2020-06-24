@@ -1,24 +1,31 @@
 <template>
   <div>
       <TopBar />
-      <h2>{{node.name}}</h2>
-      <div class='listoflinks'>
-        <NodeReference :node="node"/>
-        <router-link v-if='$store.state.editMode' class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node attributes</router-link>
+      <div class='book-content'>
+        <h3>{{node.subtype}} {{node.reference}} {{node.name}}</h3>
+        <div class='listoflinks'>
+          <NodeReference :node="node"/>
+          <router-link v-if='$store.state.editMode' class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node attributes</router-link>
+        </div>
+        <div class='listoflinks'>
+          <a class='navigatelink navpreviouslink'>Previous</a>
+          <router-link :to='this.parentRoute' class='navigatelink navuplink'>Up</router-link>
+          <a class='navigatelink navnextlink'>Next</a>
+          <a class='navigatelink navtoclink'>Show contents</a>
+        </div>
+
+        <MarkdownItVue class='md-body' :content="node.statement" />
+
+        <NodeInPage :nodeid='childnode.id' :key='childnode.id' v-for="childnode in children(node.id)" />
       </div>
-      <div class='listoflinks'>
-        <a class='navigatelink navpreviouslink'>Previous</a>
-        <router-link :to='this.parentRoute' class='navigatelink navuplink'>Up</router-link>
-        <a class='navigatelink navnextlink'>Next</a>
-        <a class='navigatelink navtoclink'>Show contents</a>
-      </div>
-      <div>{{node.statement}}</div>
   </div>
 </template>
 
 <script>
 import TopBar from '@/components/TopBar.vue'
 import NodeReference from '@/components/NodeReference.vue'
+import NodeInPage from '@/components/NodeInPage.vue'
+import MarkdownItVue from 'markdown-it-vue'
 
 export default {
   name: 'Node',
@@ -36,11 +43,19 @@ export default {
       else {
         return {name: 'Node', params: {bookid: this.book.id, nodeid: this.node.chapter}}
       }
+    },
+  },
+  methods: {
+    children(nodeid) {
+      var childids = this.$store.getters.selectedBookGraph.children(nodeid)
+      return childids.map((n) => {return this.book.nodes[n]})
     }
   },
   components: {
     TopBar,
-    NodeReference
+    NodeReference,
+    NodeInPage,
+    MarkdownItVue
   },
 }
 </script>

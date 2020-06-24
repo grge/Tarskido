@@ -8,6 +8,11 @@
 export default {
   name: 'BookOverviewGraph',
   props: {
+  },
+  methods: {
+    getGraph() {
+
+    }
   }
 }
 </script>

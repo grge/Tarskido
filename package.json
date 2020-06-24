@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "dagre-d3": "^0.6.4",
+    "markdown-it-vue": "^1.1.2",
     "uuid": "^8.1.0",
     "vue": "^2.6.11",
     "vue-multiselect": "^2.1.6",

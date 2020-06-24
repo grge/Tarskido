@@ -130,7 +130,7 @@ export default {
     },
     valid_references() {
       // TODO: Remove any nodes that refer to this node (including indirectly)
-      return Object.values(this.book.nodes).map((n) => n.id);
+      return Object.values(this.book.nodes).filter((n) => (n.type != 'Chapter')).map((n) => n.id);
     },
     valid_chapters() {
       var g = this.$store.getters.selectedBookGraph;
@@ -157,7 +157,7 @@ export default {
     },
     reference_label(nodeid) {
       var n = this.book.nodes[nodeid];
-      return n.subtype + " " + this.reference
+      return n.subtype + " " + n.reference
     }
 
   },
@@ -179,4 +179,7 @@ export default {
 
 .edit-table td
  text-align left
+
+.multiselect
+  width 30em
 </style>

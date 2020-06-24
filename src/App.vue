@@ -11,20 +11,41 @@ title-blue = #024064
 
 
 #app
-  font-family "Cambria" georgia serif
+  font-family "Cambria", georgia, serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-  text-align center
   padding 0
   margin 0
-  color #2c3e50
 
 body
-  background-color #ffffaa
+  background-color #fffffa
+
+.markdown-body p
+  font-size 22px
+  font-family "Cambria"
+
+.book-content
+  display grid
+  font-size 22px
+  width 40em
+  margin 0 auto
+
+h2
+  margin-bottom 0.15em
+  margin-top 1em
+  font-size 40px
+
+h3
+  margin-bottom 0.15em
+  margin-top 1em
+  font-size 30px
+
+textarea 
+  font-family fixed
+  width 40em
 
 a:hover
   text-decoration underline
-
 
 .editlink, .deletelink, navigatelink, .reference-link
   font-family sans-serif

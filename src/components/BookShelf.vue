@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="bookshelf">
     <div class='bookgrid'>
         <div class='bookgridbook' :key='id' v-for='(book, id) in books'>
             <router-link :to="{name: 'BookFront', params: {bookid: book.id}}">
@@ -27,6 +27,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.bookshelf 
+  text-align center
+
 .bookgrid
   display flex
   flex-wrap wrap

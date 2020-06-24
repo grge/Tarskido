@@ -16,12 +16,23 @@ var store = new Vuex.Store({
       editMode: true,
   },
   getters: {
-      tableOfContentsData(state) {
-        //   var g = getters.selectedBookGraph;
-          var root_nodes = Object.values(state.books[state.selectedBookId].nodes).filter((n) => (n.chapter == 'ROOT'));
-        //   var book = state.books[state.selectedBookId];
-          return root_nodes;
-        //   return Object.values(book.nodes);
+      tableOfContentsData(state, getters) {
+        var g = getters.selectedBookGraph
+
+        function get_tree(nodeid) {
+            return g.children(nodeid).map((n) => {
+                var n_state = state.books[state.selectedBookId].nodes[n];
+                return {
+                    id: n_state.id,
+                    reference: n_state.reference,
+                    type: n_state.type,
+                    subtype: n_state.subtype,
+                    name: n_state.name,
+                    children: get_tree(n_state.id)
+                }
+            })
+        }
+        return get_tree("ROOT")
       },
       selectedBookGraph(state) {
           var book = state.books[state.selectedBookId];
