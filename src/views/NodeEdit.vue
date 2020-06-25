@@ -130,7 +130,7 @@ export default {
     },
     valid_references() {
       // TODO: Remove any nodes that refer to this node (including indirectly)
-      return Object.values(this.book.nodes).filter((n) => (n.type != 'Chapter')).map((n) => n.id);
+      return Object.values(this.book.nodes).filter((n) => (n.type != 'Group')).map((n) => n.id);
     },
     valid_chapters() {
       var g = this.$store.getters.selectedBookGraph;
@@ -150,14 +150,14 @@ export default {
          * is not a descendent chapter of this node 
       */
       var valid_chapters = Object.values(this.book.nodes).filter((n) => {
-        return (n.type == 'Chapter') && (!descendents.includes(n.id)) && (n.id != this.node.id)
+        return (n.type == 'Group') && (!descendents.includes(n.id)) && (n.id != this.node.id)
       })
 
       return valid_chapters
     },
     reference_label(nodeid) {
       var n = this.book.nodes[nodeid];
-      return n.subtype + " " + n.reference
+      return n.subtype + " " + n.reference + " " + n.name
     }
 
   },

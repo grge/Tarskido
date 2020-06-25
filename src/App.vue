@@ -44,7 +44,6 @@ body
   -moz-osx-font-smoothing grayscale
   width 100%
 
-
 .markdown-body p
   font-size 21px
   font-family "Cambria"
@@ -52,7 +51,7 @@ body
 .book-content
   display grid
   font-size 21px
-  max-width 40em
+  max-width 50em
   margin 0 auto
 
 .big-graph-container 
@@ -78,6 +77,7 @@ h3
 textarea 
   font-family fixed
   width 40em
+  height 20em
 
 a:hover
   text-decoration underline

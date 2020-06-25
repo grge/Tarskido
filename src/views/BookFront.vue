@@ -8,6 +8,8 @@
           <router-link v-if='$store.state.editMode' class='editlink' :to="{ name: 'BookEdit', params: {bookid: book.id}}">Edit book attributes</router-link>
           <a v-if="$store.state.editMode" class='editlink' @click="addNode(book.id)">Create a new node</a>
         </div>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
         <MarkdownItVue class='md-body book-preface' :content="book.preface" />
         <BookOverviewGraph />
         <LargeTableOfContents />

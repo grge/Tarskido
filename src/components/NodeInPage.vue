@@ -1,4 +1,5 @@
 <template>
+
   <div>
       <h4>{{node.subtype}} {{node.reference}} {{node.name}}</h4>
       <div class='listoflinks'>
@@ -6,6 +7,7 @@
         <router-link v-if='$store.state.editMode' class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node attributes</router-link>
       </div>
 
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
       <MarkdownItVue class='md-body' :content="node.statement" />
   </div>
 </template>

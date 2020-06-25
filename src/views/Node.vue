@@ -15,6 +15,7 @@
           <a class='navigatelink navtoclink'>Show contents</a>
         </div>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
         <MarkdownItVue class='md-body' :content="node.statement" />
 
         <NodeInPage :nodeid='childnode.id' :key='childnode.id' v-for="childnode in children(node.id)" />
@@ -38,7 +39,7 @@ export default {
       return this.book.nodes[this.$route.params.nodeid];
     },
     canHaveChildren() {
-      return this.node.type == 'Chapter'
+      return this.node.type == 'Group'
     },
     parentRoute() {
       if (this.node.chapter == 'ROOT') {
