@@ -25,6 +25,7 @@ var store = new Vuex.Store({
                 return {
                     id: n_state.id,
                     reference: n_state.reference,
+                    label: n_state.reference,
                     type: n_state.type,
                     subtype: n_state.subtype,
                     name: n_state.name,
@@ -36,11 +37,19 @@ var store = new Vuex.Store({
       },
       selectedBookGraph(state) {
           var book = state.books[state.selectedBookId];
-          var g = new dagre.graphlib.Graph({directed: true, compound: true})
+          var g = new dagre.graphlib.Graph({directed: true, compound: true}).setGraph({})
 
           Object.values(book.nodes).forEach((node) => {
-            g.setNode(node.id, {id: node.id, name:node.name, reference:node.reference, type:node.type, subtype:node.subtype})
-            node.references.forEach((ref) => {g.setEdge(ref, node.id)})
+            g.setNode(node.id, {
+                id: node.id,
+                name:node.name,
+                label:node.subtype + " " + node.reference,
+                reference:node.reference,
+                type:node.type,
+                subtype:node.subtype
+            })
+            g.setNode("ROOT", {})
+            node.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})
             g.setParent(node.id, node.chapter)
           })
           return g
@@ -92,6 +101,20 @@ var store = new Vuex.Store({
             references: [],
             chapter: 'ROOT',
         })
+    },
+    createChildNode(state, payload) {
+        var id = uuid();
+        Vue.set(state.books[payload.bookid].nodes, id, {
+            id: id,
+            reference: '',
+            name: '',
+            type: 'Comment',
+            subtype: 'Comment',
+            statement: '',
+            references: [],
+            chapter: payload.nodeid,
+        })
+
     },
     deleteNode(state, payload) {
         Vue.delete(state.books[payload.bookid].nodes, payload.nodeid)
