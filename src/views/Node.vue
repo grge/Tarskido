@@ -18,6 +18,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
         <MarkdownItVue class='md-body' :content="node.statement" />
 
+        <ul class='nodereflist' v-if='node.references.length'>
+          <span>References:</span>
+          <li v-for='refnodeid in node.references' :key='refnodeid'>
+            <NodeReference :node='book.nodes[refnodeid]' />
+          </li>
+        </ul>
+
         <NodeInPage :nodeid='childnode.id' :key='childnode.id' v-for="childnode in children(node.id)" />
       </div>
   </div>
@@ -68,5 +75,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='stylus'>
+.nodereflist
+  list-style-type none
+  margin-left 2em
+  padding 0
+
+.nodereflist span
+  padding-right 1em
+  font-style italic
+
+.nodereflist li
+  display inline
+  opacity 60%
+  padding-right 2em
+  font-size 70%
 </style>

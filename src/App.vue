@@ -85,7 +85,6 @@ a:hover
 .editlink, .deletelink, navigatelink, .reference-link
   font-family sans-serif
   text-decoration none
-  font-size 12pt
   cursor pointer
 
 .editlink, deletelink
