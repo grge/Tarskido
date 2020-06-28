@@ -37,10 +37,32 @@
           </td>
         </tr>
         <tr><th>Statement</th><td><textarea v-model="statement"></textarea></td></tr>
+        <tr v-if='node.type == "Proposition"'>
+          <th>Proof</th>
+          <td>
+            <a @click='createProofLine' class='editlink'>Add new line</a>
+            <table class='proof-lines-table'>
+              <tr :key='ix' v-for='(line, ix) in node.proof_lines'><th>Proof Line {{ix}}</th>
+                <td>
+                  <textarea v-on:input='updateProofLineStatement(ix, $event.target.value)' :value='node.proof_lines[ix].statement'></textarea>
+                  <Multiselect
+                    placeholder='Add references...'
+                    :custom-label="reference_label"
+                    :multiple="true"
+                    v-on:input='updateProofLineReferences(ix, $event)'
+                    :value='node.proof_lines[ix].references'
+                    :options='valid_references()'>
+                  </Multiselect>
+                  <a @click='deleteProofLine(ix)' class='deletelink editlink'>Delete this line</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
       </table>
       <div class='listoflinks'>
         <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookid: this.book.id, nodeid: this.node.id}}">Back to node view</router-link>
-        <a v-if="$store.state.editMode" class='deletelink' @click='deleteThisNode'>Delete this node</a>
+        <a v-if="$store.state.editMode" class='editlink deletelink' @click='deleteThisNode'>Delete this node</a>
       </div>
   </div>
 </template>
@@ -122,6 +144,19 @@ export default {
       this.$store.commit('deleteNode', {bookid: this.book.id, nodeid: this.node.id});
       this.$router.push({name: 'BookFront', params: {bookid: this.book.id}})
     },
+    createProofLine() {
+      this.$store.commit('createProofLine', {bookid: this.book.id, nodeid: this.node.id})
+    },
+    deleteProofLine(ix) {
+      this.$store.commit('deleteProofLine', {bookid: this.book.id, nodeid: this.node.id, ix: ix});
+    },
+    updateProofLineStatement(ix, statement) {
+      console.log(statement)
+      this.$store.commit('updateProofLineStatement', {bookid: this.book.id, nodeid: this.node.id, ix: ix, statement: statement})
+    },
+    updateProofLineReferences(ix, references) {
+        this.$store.commit('updateProofLineReferences', {bookid: this.book.id, nodeid: this.node.id, ix: ix, references: references})
+    },
     valid_types() {
       return Object.keys(constants.VALID_TYPES)
     },
@@ -176,10 +211,22 @@ export default {
 
 .edit-table th
  text-align right
+ vertical-align top
 
 .edit-table td
  text-align left
 
 .multiselect
   width 30em
+
+.proof-lines-table textarea
+  height 200px
+  width 30em
+  
+.proof-lines-table th
+  padding-top 20px
+  font-weight normal 
+
+.proof-lines-table td
+  padding-top 20px
 </style>

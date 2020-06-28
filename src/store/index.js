@@ -7,6 +7,20 @@ import constants from '@/constants.js';
 
 Vue.use(Vuex)
 
+function blank_node() {
+    return {
+        id: null,
+        reference: '',
+        name: '',
+        type: 'Comment',
+        subtype: 'Comment',
+        statement: '',
+        references: [],
+        chapter: "ROOT",
+        proof_lines: []
+    }
+}
+
 var store = new Vuex.Store({
   state: {
       books: {
@@ -91,30 +105,16 @@ var store = new Vuex.Store({
     },
     createNode(state, bookid) {
         var id = uuid();
-        Vue.set(state.books[bookid].nodes, id, {
-            id: id,
-            reference: '',
-            name: '',
-            type: 'Comment',
-            subtype: 'Comment',
-            statement: '',
-            references: [],
-            chapter: 'ROOT',
-        })
+        var node = blank_node()
+        node.id = id
+        Vue.set(state.books[bookid].nodes, id, node);
     },
     createChildNode(state, payload) {
         var id = uuid();
-        Vue.set(state.books[payload.bookid].nodes, id, {
-            id: id,
-            reference: '',
-            name: '',
-            type: 'Comment',
-            subtype: 'Comment',
-            statement: '',
-            references: [],
-            chapter: payload.nodeid,
-        })
-
+        var node = blank_node()
+        node.id = id
+        node.chapter = payload.nodeid
+        Vue.set(state.books[payload.bookid].nodes, id, node);
     },
     deleteNode(state, payload) {
         Vue.delete(state.books[payload.bookid].nodes, payload.nodeid)
@@ -145,6 +145,21 @@ var store = new Vuex.Store({
     updateNodeChapter(state, payload) {
         Vue.set(state.books[payload.bookid].nodes[payload.nodeid], 'chapter', payload.chapter)
     },
+    createProofLine(state, payload) {
+        state.books[payload.bookid].nodes[payload.nodeid].proof_lines.push({
+            statement: "",
+            references: []
+        })
+    },
+    deleteProofLine(state, payload) {
+        state.books[payload.bookid].nodes[payload.nodeid].proof_lines.splice(payload.ix, 1)
+    },
+    updateProofLineStatement(state, payload) {
+        Vue.set(state.books[payload.bookid].nodes[payload.nodeid].proof_lines[payload.ix], 'statement', payload.statement)
+    },
+    updateProofLineReferences(state, payload) {
+        Vue.set(state.books[payload.bookid].nodes[payload.nodeid].proof_lines[payload.ix], 'references', payload.references)
+    }
   },
   actions: {
   },

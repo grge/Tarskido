@@ -1,24 +1,28 @@
 <template>
   <div id="app">
-    <multipane>
+    <multipane v-if='this.$store.state.selectedBookId'>
       <div class='big-graph-container'>
-        <BigGraph v-if="true" />
+        <Dagre :graph='this.$store.getters.selectedBookGraph' />
       </div>
       <multipane-resizer></multipane-resizer>
       <div class='router-view-container'>
         <router-view/>
       </div>
     </multipane>
+    <div v-if='this.$store.state.selectedBookId == null' class='router-view-container'>
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
 import { Multipane, MultipaneResizer } from 'vue-multipane'
-import BigGraph from '@/components/BigGraph.vue'
+// import BigGraph from '@/components/BigGraph.vue'
+import Dagre from '@/components/Dagre.vue'
 
 export default {
   components: {
-    BigGraph,
+    Dagre,
     Multipane,
     MultipaneResizer
   }
@@ -63,7 +67,6 @@ body
   background-color #fffff5
   flex-grow 1
   
-
 h2
   margin-bottom 0.15em
   margin-top 1em
