@@ -20,5 +20,5 @@ export default {
    right 0
    top 0
    margin 15px
-   width 30px
+   height 40px
 </style>

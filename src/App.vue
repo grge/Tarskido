@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <multipane v-if='this.$store.state.selectedBookId'>
-      <div class='big-graph-container'>
+    <multipane>
+      <div class='big-graph-container' v-if='this.$store.state.selectedBookId && ["graph", "split"].includes(this.$store.state.viewMode)'>
         <Dagre :graph='this.$store.getters.selectedBookGraph' />
       </div>
       <multipane-resizer></multipane-resizer>
-      <div class='router-view-container'>
+      <div v-if='this.$store.state.selectedBookId == null || ["book", "split"].includes(this.$store.state.viewMode)' class='router-view-container'>
         <router-view/>
       </div>
     </multipane>
-    <div v-if='this.$store.state.selectedBookId == null' class='router-view-container'>
-      <router-view/>
-    </div>
   </div>
 </template>
 
@@ -31,9 +28,10 @@ export default {
 
 <style lang="stylus">
 edit-link-color = #cc2200
-navigate-link-color = #6aa84f
+nav-link-color = #6aa84f
+ref-link-color = #0b5394
 title-blue = #024064
-
+background-color = #fffffa
 
 html
   position relative
@@ -48,14 +46,16 @@ body
   -moz-osx-font-smoothing grayscale
   width 100%
 
-.markdown-body p
-  font-size 21px
+.markdown-body p, .markdown-body li
   font-family "Cambria"
+  font-size 22px
+
+.proof-lines .markdown-body p
+  font-size 16px
 
 .book-content
-  display grid
-  font-size 21px
-  max-width 50em
+  font-size 22px
+  max-width 40em
   margin 0 auto
 
 .big-graph-container 
@@ -64,9 +64,13 @@ body
   height 100%
 
 .router-view-container 
-  background-color #fffff5
   flex-grow 1
   
+.size-controls .right
+  display inline-block
+  float right
+  padding-right 1em
+
 h2
   margin-bottom 0.15em
   margin-top 1em
@@ -75,7 +79,7 @@ h2
 h3
   margin-bottom 0.15em
   margin-top 1em
-  font-size 30px
+  font-size 26px
 
 textarea 
   font-family fixed
@@ -85,7 +89,7 @@ textarea
 a:hover
   text-decoration underline
 
-.editlink, .deletelink, navigatelink, .reference-link
+.editlink, .deletelink, .navlink, .reference-link
   font-family sans-serif
   text-decoration none
   cursor pointer
@@ -93,11 +97,11 @@ a:hover
 .editlink, deletelink
   color edit-link-color
 
-.navigatelink
-  color navigate-link-color
+.navlink
+  color nav-link-color
 
 .reference-link
-  color title-blue
+  color ref-link-color
 
 .navpreviouslink:before
   content "◀ "

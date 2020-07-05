@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { v4 as uuid } from 'uuid'
-import dagre from 'dagre-d3';
+import graphlib from '@/graphlib_ext.js';
 
 import constants from '@/constants.js';
 
@@ -28,11 +28,13 @@ var store = new Vuex.Store({
       },
       selectedBookId: null,
       editMode: true,
+      viewMode: 'book'
   },
   getters: {
       tableOfContentsData(state, getters) {
         var g = getters.selectedBookGraph
 
+        console.log("Creating tree...")
         function get_tree(nodeid) {
             return g.children(nodeid).map((n) => {
                 var n_state = state.books[state.selectedBookId].nodes[n];
@@ -51,19 +53,21 @@ var store = new Vuex.Store({
       },
       selectedBookGraph(state) {
           var book = state.books[state.selectedBookId];
-          var g = new dagre.graphlib.Graph({directed: true, compound: true}).setGraph({})
+          var g = new graphlib.Graph({directed: true, compound: true}).setGraph({})
 
+          console.log("Creating graph...")
           Object.values(book.nodes).forEach((node) => {
             g.setNode(node.id, {
                 id: node.id,
                 name:node.name,
-                label:node.subtype + " " + node.reference,
+                label:node.subtype + " " + node.reference + (node.name ? "\n" + node.name : ""),
                 reference:node.reference,
                 type:node.type,
                 subtype:node.subtype
             })
             g.setNode("ROOT", {})
             node.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})
+            node.proof_lines.forEach((line) => {line.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})})
             g.setParent(node.id, node.chapter)
           })
           return g
@@ -159,6 +163,9 @@ var store = new Vuex.Store({
     },
     updateProofLineReferences(state, payload) {
         Vue.set(state.books[payload.bookid].nodes[payload.nodeid].proof_lines[payload.ix], 'references', payload.references)
+    },
+    updateViewMode(state, mode) {
+        state.viewMode = mode
     }
   },
   actions: {

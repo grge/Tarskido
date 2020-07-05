@@ -15,17 +15,6 @@ export default {
 
 <style scoped lang="stylus">
 
-.reference-link
- display inline-block
- background-color white
- padding 4px 10px
- border 1px solid blue
- border-radius 10px
-
-.reference-link:hover
- text-decoration none
- background-color #ffe599
-
 .reference-subtype-Comment::before
   content "= "
 

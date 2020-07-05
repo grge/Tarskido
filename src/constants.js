@@ -1,6 +1,6 @@
 const VALID_TYPES = {
-    Comment: ['Comment', 'Note'],
-    Group: ['Chapter', 'Appendix', 'Multi-part Proposition'],
+    Comment: ['Comment', 'Note', 'Example'],
+    Group: ['Chapter', 'Appendix', 'Multi-part'],
     Definition: ['Definition', 'Axiom'],
     Proposition: ['Proposition', 'Theorem', 'Lemma', 'Corollary'],
 }

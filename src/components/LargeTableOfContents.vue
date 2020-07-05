@@ -2,7 +2,7 @@
   <div>
     <h3>Contents</h3>
     <table>
-      <tr :key='node_lvl0.id' v-for="node_lvl0 in this.$store.getters.tableOfContentsData">
+      <tr :key='node_lvl0.id' v-for="node_lvl0 in toc_data">
         <td>
           <div class='level-0'>
             <router-link
@@ -26,12 +26,12 @@
             <div class='level-1' :key='child_lvl1.id' v-for='child_lvl1 in node_lvl0.children'>
               <router-link
                 :to="{name: 'Node', params: {bookid: book.id, nodeid: child_lvl1.id}}">
-                {{child_lvl1.subtype}} {{child_lvl1.reference}}&emsp;&emsp;{{child_lvl1.name}}
+                {{child_lvl1.reference}}&emsp;&emsp;{{child_lvl1.name}}
               </router-link>
               <div :key='child_lvl2.id' v-for='child_lvl2 in child_lvl1.children' class='level-2'>
                 <router-link
                   :to="{name: 'Node', params: {bookid: book.id, nodeid: child_lvl2.id}}">
-                  {{child_lvl2.subtype}} {{child_lvl2.reference}}&emsp;{{child_lvl2.name}}
+                  {{child_lvl2.reference}}&emsp;{{child_lvl2.name}}
                 </router-link>
               </div>
             </div>
@@ -48,6 +48,26 @@ export default {
   computed: {
     book() {
       return this.$store.state.books[this.$route.params.bookid];
+    },
+    toc_data() {
+      var book = this.book
+
+      console.log(book)
+      function tree_nodes(tree) {
+        var chapter_nodes = tree.filter((n) => { return book.nodes[n.id].subtype == 'Chapter'})
+        
+        return chapter_nodes.map((n) => {
+          return {
+            id: n.id,
+            children: tree_nodes(n.children),
+            ... book.nodes[n.id]
+          }
+        })
+      }
+
+      var tree = this.$store.getters.selectedBookGraph.getSubgraphTree('ROOT')
+      console.log(tree)
+      return tree_nodes(tree)
     }
   }
 }
