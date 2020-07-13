@@ -1,4 +1,4 @@
-# tarskido
+# Tarskido
 
 ## Project setup
 ```

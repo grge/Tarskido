@@ -4,7 +4,7 @@
       <a @click='$store.commit("updateViewMode", "split")' class='right navigatelink link'>⍅ Show book</a>
     </div>
     <SvgPanZoom
-      style="width: 100%; height: 800px; border: 1px solid black;"
+      style="width: 100%; height: 1200px; border: 1px solid black;"
       @svgpanzoom="registerSvgPanZoom"
       :dblClickZoomEnabled='false'
       :controlIconsEnabled='true'
@@ -79,11 +79,12 @@ export default {
 
       if (this.mounted) {
         g.setGraph({
-          ranker: 'network-simplex',
+          ranker: 'tight-tree',
+          align: 'UR',
           rankdir: 'LR',
-          nodesep: '30',
-          edgesep: '50',
-          ranksep: '50'
+          nodesep: '10',
+          edgesep: '40',
+          ranksep: '40'
         })
 
         g.nodes().forEach((n) => {

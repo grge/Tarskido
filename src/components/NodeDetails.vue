@@ -17,6 +17,8 @@
         </div>
       </div>
 
+      <!-- <Dagre v-if='level==1' :graph='nodeContextGraph' /> -->
+
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
       <MarkdownItVue class='md-body' :content="node.statement" />
 
@@ -32,6 +34,7 @@ import NodeReference from '@/components/NodeReference.vue'
 import NodeProof from '@/components/NodeProof.vue'
 import MultipartNodeDetails from '@/components/MultipartNodeDetails.vue'
 import ReferenceList from '@/components/ReferenceList.vue'
+import Dagre from '@/components/Dagre.vue'
 import MarkdownItVue from 'markdown-it-vue'
 
 export default {
@@ -41,7 +44,8 @@ export default {
     NodeProof,
     ReferenceList,
     MultipartNodeDetails,
-    MarkdownItVue
+    MarkdownItVue,
+    Dagre
   },
   props: {
     nodeid: String,
@@ -65,6 +69,9 @@ export default {
         return {name: 'Node', params: {bookid: this.book.id, nodeid: this.node.chapter}}
       }
     },
+    nodeContextGraph() {
+      return this.graph
+    }
   },
   methods: {
     createNewNode() {
