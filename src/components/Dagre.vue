@@ -4,36 +4,17 @@
       <a @click='$store.commit("updateViewMode", "split")' class='right navigatelink link'>⍅ Show book</a>
     </div>
     <SvgPanZoom
-      style="width: 100%; height: 1200px; border: 1px solid black;"
+      style="width: 100%; height: 1200px;"
       @svgpanzoom="registerSvgPanZoom"
       :dblClickZoomEnabled='false'
       :controlIconsEnabled='true'
       minZoom="0.1">
       <svg style='width: inherit; height: inherit;'>
         <g ref='svg-container'>
-          <g class='clusters'> 
-            <g :class='"cluster" + (isSelectedNode(node.id) ? " selected" : "")' :key='node.id' v-for='node in this.clusters_in_draw_order' :transform='"translate(" + node.x + " " + node.y + ")"'>
-              <router-link :to='{name: "Node", params:{nodeid:node.id, bookid:$store.state.selectedBookId}}'>
-                <rect :width='node.width' :height='node.height' :x='-node.width/2' :y='-node.height/2' rx='5' ry='5'/>
-              </router-link>
-              <g>
-                <a @click='toggleChapter(node.id)'>
-                  <rect class='cluster-header' :width='node.width' height='30' :x='-node.width/2' :y='-node.height/2' rx='5' ry='5'/>
-                  <text :id='node.id' :x='-node.width/2 + 10' :y='-node.height/2 + 22'>{{node.label}}</text>
-                </a>
-                <!-- <text class='cluster-controls' :x='node.width/2 - 10' :y='-node.height/2 + 22'>↙</text> -->
-              </g>
-            </g>
-          </g>
 
-          <g class='edges'>
-            <g class='edge' :key='e.v + ":" + e.w' v-for='e in this.render_graph._edgeObjs'>
-              <path :d='pointsToPath(render_graph.edge(e).points)'/>
-            </g>
-          </g>
 
           <g class='nodes'>
-            <g :class='"node" + (isSelectedNode(node.id) ? " selected" : "")' :key='node.id' v-for='node in this.non_subgraph_nodes' :transform='"translate(" + node.x + " " + node.y + ")"'>
+            <g :class='"node" + (isSelectedNode(node.id) ? " selected" : "")' :key='node.id' v-for='node in this.nodes_in_draw_order' :transform='"translate(" + node.x + " " + node.y + ")"'>
               <router-link :to='{name: "Node", params:{nodeid:node.id, bookid:$store.state.selectedBookId}}'>
                 <rect :width='node.width' :height='node.height' :x='-node.width/2' :y='-node.height/2' rx='5' ry='5' />
               </router-link>
@@ -44,6 +25,12 @@
                 </a>
               </g>
             </g>
+          </g>
+        </g>
+
+        <g class='edges'>
+          <g class='edge' :key='e.v + ":" + e.w' v-for='e in this.render_graph._edgeObjs'>
+            <path :d='pointsToPath(render_graph.edge(e).points)'/>
           </g>
         </g>
 
@@ -83,7 +70,7 @@ export default {
           align: 'UR',
           rankdir: 'LR',
           nodesep: '10',
-          edgesep: '40',
+          edgesep: '70',
           ranksep: '40'
         })
 
@@ -115,6 +102,10 @@ export default {
 
       var g = this.render_graph
       return g.filterNodes((n) => {return (n == 'ROOT' || this.isSubgraph(n))}).getSubgraphNodes("ROOT").map((n) => g.node(n))
+    },
+    nodes_in_draw_order() {
+      var g = this.render_graph
+      return g.getSubgraphNodes("ROOT").map((n) => g.node(n))
     },
     subgraph_nodes() {
       return Object.values(this.render_graph._nodes).filter((n) => (n.id && (n.id != 'ROOT') && this.isSubgraph(n.id)))
@@ -234,6 +225,12 @@ text.cluster-controls
 .graph-border 
   fill red
   stroke black
+
+rect 
+  transition all 0.3s ease-in-out
+
+path
+  transition all 0.3s ease
 
 
 </style>
